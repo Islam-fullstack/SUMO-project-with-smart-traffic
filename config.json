@@ -1,0 +1,85 @@
+{
+  "general_settings": {
+    "_comment": "Общие настройки системы: режим работы, источник данных, директория для результатов, уровень логирования, случайное семя.",
+    "mode": "simulation",
+    "detection_source": "simulation",
+    "output_dir": "./results",
+    "logging_level": "INFO",
+    "random_seed": 42
+  },
+  "simulation_settings": {
+    "_comment": "Настройки симуляции: общее время симуляции, шаг времени, количество перекрестков, интенсивности прибытия, распределение типов транспортных средств, длины полос и максимальные скорости.",
+    "simulation_time": 3600,
+    "dt": 0.1,
+    "num_intersections": 4,
+    "traffic_arrival_rates": { "N": 0.2, "S": 0.15, "E": 0.2, "W": 0.15 },
+    "vehicle_types_distribution": { "car": 0.7, "truck": 0.15, "bus": 0.1, "motorcycle": 0.05 },
+    "lane_lengths": { "N": 500, "S": 500, "E": 500, "W": 500 },
+    "max_speeds": { "N": 15, "S": 15, "E": 15, "W": 15 }
+  },
+  "detection_settings": {
+    "_comment": "Настройки обнаружения транспорта: источник видео, путь к модели YOLO, порог уверенности, классы для обнаружения, ROI для каждого направления, частота обработки кадров и флаг сохранения обработанного видео.",
+    "video_source": "0",
+    "model_path": "yolov8n.pt",
+    "confidence_threshold": 0.5,
+    "classes_to_detect": ["car", "truck", "bus", "motorcycle"],
+    "roi_regions": {
+      "N": [0, 0, 640, 240],
+      "S": [0, 240, 640, 480],
+      "E": [320, 0, 640, 480],
+      "W": [0, 0, 320, 480]
+    },
+    "processing_fps": 25,
+    "save_processed_video": false
+  },
+  "traditional_controller_settings": {
+    "_comment": "Настройки традиционного контроллера светофоров: продолжительность фаз, желтый сигнал, общий цикл и список фаз с зелёными направлениями.",
+    "phase_durations": [30, 30],
+    "yellow_time": 3,
+    "cycle_time": 60,
+    "phases": [
+      { "phase_id": "Phase1", "green_directions": ["N", "S"] },
+      { "phase_id": "Phase2", "green_directions": ["E", "W"] }
+    ]
+  },
+  "smart_controller_settings": {
+    "_comment": "Настройки умного контроллера светофоров: минимальная и максимальная продолжительность фаз, желтый сигнал, лимиты для цикла, список фаз и параметры оптимизации.",
+    "min_phase_durations": [10, 10],
+    "max_phase_durations": [60, 60],
+    "yellow_time": 3,
+    "min_cycle_time": 20,
+    "max_cycle_time": 120,
+    "phases": [
+      { "phase_id": "Phase1", "green_directions": ["N", "S"] },
+      { "phase_id": "Phase2", "green_directions": ["E", "W"] }
+    ],
+    "optimization_parameters": {
+      "waiting_time_weight": 0.5,
+      "vehicle_count_weight": 1.0
+    }
+  },
+  "sumo_integration_settings": {
+    "_comment": "Настройки интеграции с SUMO: путь к конфигурационному файлу SUMO, использование графического интерфейса, порт TraCI, список светофоров, диапазон детектирования и путь к файлу OSM.",
+    "sumo_config_path": "osm.sumocfg",
+    "use_gui": true,
+    "port": 8813,
+    "traffic_lights": ["TL1", "TL2", "TL3", "TL4"],
+    "detector_range": 50,
+    "osm_file": "map.osm"
+  },
+  "visualization_settings": {
+    "_comment": "Настройки визуализации: типы графиков, форматы сохранения, создание анимаций, метрики для сравнения, стиль графиков и разрешение (dpi).",
+    "plot_types": ["bar", "line", "heatmap", "kde"],
+    "save_formats": ["png", "pdf"],
+    "create_animations": true,
+    "comparison_metrics": [
+      "avg_waiting_time",
+      "avg_queue_length",
+      "throughput",
+      "emissions",
+      "fuel_consumption"
+    ],
+    "plot_style": "seaborn-darkgrid",
+    "dpi": 300
+  }
+}
