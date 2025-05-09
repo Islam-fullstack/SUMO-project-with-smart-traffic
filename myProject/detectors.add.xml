@@ -1,0 +1,10 @@
+<additional>
+    <!-- Пример определения индукционной петли -->
+    <!-- Замените значение 'lane_1' на идентификатор реальной полосы, на которой устанавливается датчик -->
+    <inductionLoop 
+        id="detector_1"
+        lane="lane_1" 
+        pos="50"        
+        freq="60"       
+        file="detector_output.xml"/>
+</additional>

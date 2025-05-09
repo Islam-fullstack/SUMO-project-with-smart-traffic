@@ -285,7 +285,7 @@ class SUMOTrafficLightController:
         Реализация будет зависеть от логики изменения длительности фаз.
         """
         # Здесь можно задать базовую программу и далее изменять длительности фаз через set_phase_duration
-        program = "actuated"  # или любое имя программы, поддерживающее адаптацию
+        program = "static"  # или любое имя программы, поддерживающее адаптацию
         self.set_program(program)
         print(f"Светофор {self.traffic_light_id}: создана умная программа")
 
@@ -532,7 +532,7 @@ class SUMOScenarioGenerator:
         """
         net_file = self.generate_network()
         routes_file = self.generate_traffic_demand()
-        config_file = os.path.join(self.output_dir, "osm.sumocfg")
+        config_file = os.path.join(self.output_dir, "myProject/osm.sumocfg")
         config_content = f"""<configuration>
     <input>
         <net-file value="{net_file}"/>
@@ -568,7 +568,7 @@ class SUMOScenarioGenerator:
 ###############################################################################
 def main():
     parser = argparse.ArgumentParser(description="Интеграция системы умных светофоров с симулятором SUMO")
-    parser.add_argument("--sumo_config", type=str, default="osm.sumocfg",
+    parser.add_argument("--sumo_config", type=str, default="myProject/osm.sumocfg",
                         help="Путь к конфигурационному файлу SUMO (по умолчанию osm.sumocfg)")
     parser.add_argument("--gui", type=bool, default=True,
                         help="Использовать графический интерфейс SUMO (по умолчанию True)")
