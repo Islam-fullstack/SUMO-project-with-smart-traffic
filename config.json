@@ -1,0 +1,78 @@
+{
+  "general_settings": {
+    "mode": "simulation",
+    "detection_source": "simulation",
+    "output_dir": "./results",
+    "logging_level": "INFO",
+    "random_seed": 42
+  },
+  "simulation_params": {
+    "simulation_time": 3600,
+    "dt": 0.1,
+    "num_intersections": 4,
+    "traffic_arrival_rates": { "N": 0.2, "S": 0.15, "E": 0.2, "W": 0.15 },
+    "vehicle_types_distribution": { "car": 0.7, "truck": 0.15, "bus": 0.1, "motorcycle": 0.05 },
+    "lane_lengths": { "N": 500, "S": 500, "E": 500, "W": 500 },
+    "max_speeds": { "N": 15, "S": 15, "E": 15, "W": 15 }
+  },
+  "detection_params": {
+    "video_source": "0",
+    "model_path": "yolov8n.pt",
+    "confidence_threshold": 0.5,
+    "classes_to_detect": ["car", "truck", "bus", "motorcycle"],
+    "roi_regions": {
+      "N": [0, 0, 640, 240],
+      "S": [0, 240, 640, 480],
+      "E": [320, 0, 640, 480],
+      "W": [0, 0, 320, 480]
+    },
+    "processing_fps": 25,
+    "save_processed_video": false
+  },
+  "traditional_controller_params": {
+    "phase_durations": [30, 30],
+    "yellow_time": 3,
+    "cycle_time": 60,
+    "phases": [
+      { "phase_id": "Phase1", "green_directions": ["N", "S"] },
+      { "phase_id": "Phase2", "green_directions": ["E", "W"] }
+    ]
+  },
+  "smart_controller_params": {
+    "min_phase_duration": 10,
+    "max_phase_duration": 60,
+    "yellow_time": 3,
+    "min_cycle_time": 20,
+    "max_cycle_time": 120,
+    "phases": [
+      { "phase_id": "Phase1", "green_directions": ["N", "S"] },
+      { "phase_id": "Phase2", "green_directions": ["E", "W"] }
+    ],
+    "optimization_parameters": {
+      "waiting_time_weight": 0.5,
+      "vehicle_count_weight": 1.0
+    }
+  },
+  "sumo_params": {
+    "sumo_config": "myProject/osm.sumocfg",
+    "use_gui": true,
+    "port": 8813,
+    "traffic_lights": ["3455267510"],
+    "detector_range": 50,
+    "osm_file": "myProject/map.osm"
+  },
+  "visualization_params": {
+    "plot_types": ["bar", "line", "heatmap", "kde"],
+    "save_formats": ["png", "pdf"],
+    "create_animations": true,
+    "comparison_metrics": [
+      "avg_waiting_time",
+      "avg_queue_length",
+      "throughput",
+      "emissions",
+      "fuel_consumption"
+    ],
+    "plot_style": "seaborn-darkgrid",
+    "dpi": 300
+  }
+}
